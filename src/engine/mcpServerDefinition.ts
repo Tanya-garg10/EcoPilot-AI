@@ -153,6 +153,9 @@ export const MCP_TOOLS: McpToolDefinition[] = [
         },
       },
     },
+  },
+];
+
 export interface McpResourceDefinition {
   uri: string;
   name: string;
@@ -377,7 +380,7 @@ export function getMcpPrompt(name: string, args: Record<string, any> = {}): any 
       throw new Error(`Prompt "${name}" not found`);
   }
 }
- */
+
 export function executeMcpTool(name: string, args: Record<string, any>): any {
   const tariffRate = typeof args.tariffRate === 'number' && args.tariffRate > 0 ? args.tariffRate : 8.0;
   const tariff: TariffConfig = {

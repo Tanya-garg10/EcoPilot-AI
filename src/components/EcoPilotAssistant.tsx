@@ -5,7 +5,6 @@ import {
   Bot,
   User,
   Zap,
-  Mic,
   Cpu,
   RefreshCw,
   TrendingDown,
@@ -48,15 +47,15 @@ export const EcoPilotAssistant: React.FC<EcoPilotAssistantProps> = ({
     {
       id: 'welcome',
       sender: 'assistant',
-      text: `Hello Tanya! I am **EcoPilot AI** 💚, your intelligent energy advisor.
+      text: `Hello! I am **EcoPilot AI**, your intelligent household energy advisor.
 
 I can help you:
-• Calculate exact appliance kWh consumption and monthly bills using mathematical formulas.
+• Calculate exact appliance kWh consumption and monthly bills using transparent physics formulas.
 • Optimize energy-saving investments using our exact **0/1 Knapsack algorithm** under your specific budget.
-• Run **What-If simulations** (e.g., what happens if you raise your AC to 24°C or reduce usage by 2 hours).
-• Connect to **Alexa+ and MCP tools** for smart home voice energy audits.
+• Run **What-If simulations** (e.g. what happens if you raise your AC to 24°C or reduce runtime by 2 hours).
+• Connect to **Streamable HTTP MCP tools** for smart home energy audits.
 
-Try clicking a starter question below or ask anything about your home energy!`,
+Click a starter question below or ask anything about your home energy!`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -99,7 +98,7 @@ Try clicking a starter question below or ask anything about your home energy!`,
             tariffRate: tariff.ratePerKwh,
             totalMonthlyCost,
             totalMonthlyKwh,
-            appliancesCount: appliances.length,
+            appliances,
           },
         }),
       });
@@ -108,7 +107,7 @@ Try clicking a starter question below or ask anything about your home energy!`,
 
       let toolUsed: string | undefined;
       const lower = textToSend.toLowerCase();
-      if (lower.includes('budget') || lower.includes('optimize') || lower.includes('1500') || lower.includes('500')) {
+      if (lower.includes('budget') || lower.includes('optimize') || lower.includes('1500') || lower.includes('500') || lower.includes('1000')) {
         toolUsed = 'optimize_saving_plan (0/1 Knapsack DP)';
       } else if (lower.includes('ac') && (lower.includes('reduce') || lower.includes('save') || lower.includes('if'))) {
         toolUsed = 'simulate_energy_action (What-If)';
@@ -125,7 +124,7 @@ Try clicking a starter question below or ask anything about your home energy!`,
       };
 
       setMessages((prev) => [...prev, botMsg]);
-    } catch (err: any) {
+    } catch {
       const botMsg: Message = {
         id: `bot-${Date.now()}`,
         sender: 'assistant',
@@ -142,31 +141,33 @@ Try clicking a starter question below or ask anything about your home energy!`,
   };
 
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="space-y-6">
       {/* Top Banner */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-900/90 to-emerald-950/40 p-6 rounded-3xl border border-slate-800 shadow-xl">
+      <div className="bg-white p-6 rounded-3xl border border-[#E5E9E4] shadow-xs">
         <div className="flex items-center gap-2 mb-1">
-          <span className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-400">
+          <span className="p-1.5 rounded-lg bg-[#E8F9BE] text-[#173F35]">
             <Sparkles className="w-5 h-5" />
           </span>
-          <h2 className="text-2xl font-extrabold text-white tracking-tight">EcoPilot AI Conversational Assistant</h2>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-[#172C26] tracking-tight">
+            EcoPilot AI Conversational Assistant
+          </h2>
         </div>
-        <p className="text-sm text-slate-300 max-w-3xl">
-          Powered by server-side Gemini 3.8 and structured mathematical MCP tools. Ask natural-language questions in English or Hinglish about appliance power draw, bills, budget optimization, or simulation scenarios.
+        <p className="text-xs sm:text-sm text-[#69766F] max-w-3xl">
+          Powered by server-side Gemini 3.8 and structured mathematical MCP tools. Ask natural-language questions about appliance wattage, bills, budget optimization, or simulation scenarios.
         </p>
       </div>
 
       {/* Chat Container */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[580px]">
+      <div className="bg-white border border-[#E5E9E4] rounded-3xl overflow-hidden shadow-xs flex flex-col h-[580px]">
         {/* Chat Header Bar */}
-        <div className="px-6 py-3 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between">
+        <div className="px-6 py-3.5 bg-[#F8F8F2] border-b border-[#E5E9E4] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-bold text-xs uppercase tracking-wider text-slate-200">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#173F35] animate-pulse" />
+            <span className="font-bold text-xs uppercase tracking-wider text-[#172C26]">
               EcoPilot Assistant • Ready
             </span>
           </div>
-          <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
+          <div className="flex items-center gap-2 text-xs font-mono text-[#173F35]">
             <Cpu className="w-3.5 h-3.5" />
             <span>MCP Tools Connected (5 active)</span>
           </div>
@@ -182,22 +183,19 @@ Try clicking a starter question below or ask anything about your home energy!`,
                 className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
               >
                 {!isUser && (
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5 shrink-0 flex items-center justify-center">
-                    <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                      <Bot className="w-4 h-4 text-emerald-400" />
-                    </div>
+                  <div className="w-8 h-8 rounded-xl bg-[#173F35] text-[#C9F36A] shrink-0 flex items-center justify-center">
+                    <Bot className="w-4 h-4" />
                   </div>
                 )}
 
-                <div className={`space-y-1.5 max-w-[85%] sm:max-w-[75%]`}>
+                <div className="space-y-1.5 max-w-[85%] sm:max-w-[75%]">
                   <div
                     className={`p-4 rounded-2xl text-sm leading-relaxed ${
                       isUser
-                        ? 'bg-emerald-600 text-slate-950 font-medium rounded-tr-none'
-                        : 'bg-slate-950/80 border border-slate-800/90 text-slate-200 rounded-tl-none'
+                        ? 'bg-[#173F35] text-white font-medium rounded-tr-none'
+                        : 'bg-[#F8F8F2] border border-[#E5E9E4] text-[#172C26] rounded-tl-none'
                     }`}
                   >
-                    {/* Render message with line breaks and markdown bold formatting */}
                     <div className="whitespace-pre-wrap space-y-2">
                       {msg.text.split('\n\n').map((paragraph, idx) => (
                         <p key={idx} className="leading-relaxed">
@@ -206,16 +204,15 @@ Try clicking a starter question below or ask anything about your home energy!`,
                       ))}
                     </div>
 
-                    {/* Tool Execution Badge if detected */}
                     {msg.toolUsed && (
-                      <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center gap-1.5 text-[11px] font-mono text-emerald-400">
-                        <Zap className="w-3.5 h-3.5" />
+                      <div className="mt-3 pt-2.5 border-t border-[#E5E9E4] flex items-center gap-1.5 text-[11px] font-mono text-[#173F35]">
+                        <Zap className="w-3.5 h-3.5 text-[#173F35]" />
                         <span>Connected Tool Executed: {msg.toolUsed}</span>
                       </div>
                     )}
                   </div>
                   <div
-                    className={`text-[10px] text-slate-400 px-1 font-mono ${
+                    className={`text-[10px] text-[#69766F] px-1 font-mono ${
                       isUser ? 'text-right' : 'text-left'
                     }`}
                   >
@@ -224,8 +221,8 @@ Try clicking a starter question below or ask anything about your home energy!`,
                 </div>
 
                 {isUser && (
-                  <div className="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 shrink-0 flex items-center justify-center">
-                    <User className="w-4 h-4 text-slate-300" />
+                  <div className="w-8 h-8 rounded-xl bg-[#F8F8F2] border border-[#E5E9E4] shrink-0 flex items-center justify-center text-[#173F35]">
+                    <User className="w-4 h-4" />
                   </div>
                 )}
               </div>
@@ -233,9 +230,9 @@ Try clicking a starter question below or ask anything about your home energy!`,
           })}
 
           {loading && (
-            <div className="flex gap-3 items-center text-slate-400 text-xs">
-              <div className="w-8 h-8 rounded-xl bg-slate-800 flex items-center justify-center animate-spin">
-                <RefreshCw className="w-4 h-4 text-emerald-400" />
+            <div className="flex gap-3 items-center text-[#69766F] text-xs">
+              <div className="w-8 h-8 rounded-xl bg-[#F8F8F2] border border-[#E5E9E4] flex items-center justify-center animate-spin">
+                <RefreshCw className="w-4 h-4 text-[#173F35]" />
               </div>
               <span className="font-mono">EcoPilot mathematical engine analyzing query...</span>
             </div>
@@ -244,13 +241,13 @@ Try clicking a starter question below or ask anything about your home energy!`,
         </div>
 
         {/* Suggested Prompt Chips */}
-        <div className="px-6 py-2 bg-slate-950/60 border-t border-slate-800/60 flex items-center gap-2 overflow-x-auto no-scrollbar">
-          <span className="text-[10px] uppercase font-bold text-slate-400 shrink-0">Try:</span>
+        <div className="px-6 py-2.5 bg-[#F8F8F2] border-t border-[#E5E9E4] flex items-center gap-2 overflow-x-auto no-scrollbar">
+          <span className="text-[10px] uppercase font-bold text-[#69766F] shrink-0">Try:</span>
           {SAMPLE_PROMPTS.map((prompt, idx) => (
             <button
               key={idx}
               onClick={() => handleSend(prompt)}
-              className="text-xs px-3 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 whitespace-nowrap transition"
+              className="text-xs px-3 py-1 rounded-full bg-white hover:bg-[#E8F9BE] text-[#172C26] border border-[#E5E9E4] whitespace-nowrap transition cursor-pointer"
             >
               {prompt}
             </button>
@@ -258,21 +255,21 @@ Try clicking a starter question below or ask anything about your home energy!`,
         </div>
 
         {/* Input Bar */}
-        <div className="p-4 bg-slate-950 border-t border-slate-800 flex items-center gap-3">
+        <div className="p-4 bg-white border-t border-[#E5E9E4] flex items-center gap-3">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Ask EcoPilot: e.g. How much can I save with 2 BLDC fans? or Optimize plan for ₹1000..."
-            className="flex-1 bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
+            className="flex-1 bg-[#F8F8F2] border border-[#E5E9E4] rounded-2xl px-4 py-3 text-sm text-[#172C26] placeholder-[#69766F] focus:outline-none focus:border-[#173F35]"
           />
           <button
             onClick={() => handleSend()}
             disabled={!input.trim() || loading}
-            className="px-5 py-3 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-slate-950 font-bold rounded-2xl transition shadow-lg shadow-emerald-500/20 flex items-center gap-2 cursor-pointer"
+            className="px-5 py-3 bg-[#173F35] hover:bg-[#235447] disabled:opacity-40 text-white font-bold rounded-2xl transition shadow-sm flex items-center gap-2 cursor-pointer"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-4 h-4 text-[#C9F36A]" />
             <span className="hidden sm:inline">Ask AI</span>
           </button>
         </div>

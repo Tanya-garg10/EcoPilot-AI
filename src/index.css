@@ -1,28 +1,100 @@
 @import "tailwindcss";
 
+:root {
+  --color-bg: #F8F8F2;
+  --color-forest: #173F35;
+  --color-forest-dark: #102B24;
+  --color-forest-light: #235447;
+  --color-lime: #C9F36A;
+  --color-lime-soft: #E8F9BE;
+  --color-yellow: #F5D979;
+  --color-yellow-soft: #FEF7DC;
+  --color-text-main: #172C26;
+  --color-text-muted: #69766F;
+  --color-card: #FFFFFF;
+  --color-card-warm: #FDFDFB;
+  --color-border: #E5E9E4;
+}
+
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #FAF9F5;
-    color: #1C1917;
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    letter-spacing: -0.01em;
   }
   code, pre {
     font-family: 'JetBrains Mono', monospace;
   }
 }
 
-/* Custom scrollbars for light warm-white theme */
+/* Custom scrollbars for clean warm-light aesthetic */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F5F5F0;
+  background: #F3F4EE;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D6D3D1;
+  background: #D4DBD2;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #059669;
+  background: #173F35;
+}
+
+/* Custom subtle animations */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes orbitSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatGentle 6s ease-in-out 2s infinite;
+}
+
+.animate-sun-glow {
+  animation: pulseSubtle 7s ease-in-out infinite;
+}
+
+.animate-orbit {
+  animation: orbitSpin 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-delayed,
+  .animate-sun-glow,
+  .animate-orbit {
+    animation: none !important;
+  }
 }
