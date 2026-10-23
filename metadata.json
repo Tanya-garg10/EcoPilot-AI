@@ -1,0 +1,6 @@
+{
+  "name": "EcoPilot AI",
+  "description": "Intelligent household energy calculator, 0/1 knapsack budget optimizer, what-if simulator, and Alexa+ MCP energy assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
