@@ -92,7 +92,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'optimizer', label: 'Savings Planner', icon: TrendingDown, badge: '0/1 Knapsack' },
     { id: 'whatif', label: 'What-If Simulator', icon: Activity, badge: 'Dynamic' },
     { id: 'mcp', label: 'MCP Protocol Hub', icon: Cpu, badge: 'Streamable HTTP' },
-    { id: 'checklist', label: 'Hackathon Checklist', icon: CheckCircle2, badge: 'Tests' },
   ];
 
   return (

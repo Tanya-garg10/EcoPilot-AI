@@ -12,6 +12,8 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { Appliance, TariffConfig } from '../types';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface EcoPilotAssistantProps {
   appliances: Appliance[];
@@ -196,12 +198,21 @@ Click a starter question below or ask anything about your home energy!`,
                         : 'bg-[#F8F8F2] border border-[#E5E9E4] text-[#172C26] rounded-tl-none'
                     }`}
                   >
-                    <div className="whitespace-pre-wrap space-y-2">
-                      {msg.text.split('\n\n').map((paragraph, idx) => (
-                        <p key={idx} className="leading-relaxed">
-                          {paragraph}
-                        </p>
-                      ))}
+                    <div className="prose prose-sm prose-emerald max-w-none">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          p: ({ children }) => <p className="leading-relaxed mb-2 last:mb-0">{children}</p>,
+                          strong: ({ children }) => <strong className="font-bold text-[#172C26]">{children}</strong>,
+                          em: ({ children }) => <em className="italic">{children}</em>,
+                          ul: ({ children }) => <ul className="list-disc pl-4 space-y-1 mb-2">{children}</ul>,
+                          ol: ({ children }) => <ol className="list-decimal pl-4 space-y-1 mb-2">{children}</ol>,
+                          li: ({ children }) => <li className="text-sm">{children}</li>,
+                          code: ({ children }) => <code className="bg-[#F8F8F2] px-1.5 py-0.5 rounded text-xs font-mono text-[#173F35]">{children}</code>,
+                        }}
+                      >
+                        {msg.text}
+                      </ReactMarkdown>
                     </div>
 
                     {msg.toolUsed && (
