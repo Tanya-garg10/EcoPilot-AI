@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
-import { GoogleGenAI } from '@google/genai';
+import OpenAI from 'openai';
 import {
   executeMcpTool,
   MCP_TOOLS,
@@ -73,14 +73,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// Initialize Gemini Client
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    },
-  },
+// Initialize Featherless AI Client (OpenAI-compatible)
+const ai = new OpenAI({
+  apiKey: process.env.FEATHERLESS_API_KEY || 'dummy-key',
+  baseURL: 'https://api.featherless.ai/v1',
 });
 
 // Helper for deterministic Alexa+ rule-based responses
@@ -194,8 +190,8 @@ app.post('/api/gemini/chat', async (req: Request, res: Response) => {
     // Deterministically execute corresponding MCP tool first
     const deterministicData = resolveDeterministicAlexaQuery(promptText, userContext);
 
-    // If Gemini is available, generate natural conversational response grounded in the tool output
-    if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'MY_GEMINI_API_KEY') {
+    // If Featherless AI is available, generate natural conversational response grounded in the tool output
+    if (process.env.FEATHERLESS_API_KEY && process.env.FEATHERLESS_API_KEY !== 'YOUR_FEATHERLESS_API_KEY') {
       try {
         const enrichedPrompt = `User asked: "${promptText}".
 Exact deterministic tool calculation result from tool '${deterministicData.toolName}':
@@ -203,21 +199,28 @@ ${JSON.stringify(deterministicData.result, null, 2)}
 
 Provide an intelligent, concise Alexa+-style spoken response (2-4 sentences). Always use the exact mathematical numbers from the tool output above. Do not hallucinate or alter any numbers. Be conversational, clear, and reassuring.`;
 
-        const geminiPromise = ai.models.generateContent({
-          model: 'gemini-3.8-flash',
-          contents: [{ role: 'user', parts: [{ text: enrichedPrompt }] }],
-          config: {
-            systemInstruction: 'You are Alexa+, an intelligent household energy advisor powered by EcoPilot AI. You speak naturally and quote exact deterministic tool calculation results.',
-            temperature: 0.4,
-          },
+        const featherlessPromise = ai.chat.completions.create({
+          model: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are Alexa+, an intelligent household energy advisor powered by EcoPilot AI. You speak naturally and quote exact deterministic tool calculation results.',
+            },
+            {
+              role: 'user',
+              content: enrichedPrompt,
+            },
+          ],
+          temperature: 0.4,
+          max_tokens: 500,
         });
 
         const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Gemini API timeout')), 2200)
+          setTimeout(() => reject(new Error('Featherless API timeout')), 5000)
         );
 
-        const geminiRes: any = await Promise.race([geminiPromise, timeoutPromise]);
-        const reply = geminiRes.text?.trim() || deterministicData.spokenText;
+        const featherlessRes: any = await Promise.race([featherlessPromise, timeoutPromise]);
+        const reply = featherlessRes.choices[0]?.message?.content?.trim() || deterministicData.spokenText;
         res.json({
           reply,
           toolExecution: {
@@ -228,8 +231,8 @@ Provide an intelligent, concise Alexa+-style spoken response (2-4 sentences). Al
           timestamp: new Date().toISOString(),
         });
         return;
-      } catch (geminiErr) {
-        console.warn('Gemini API call bypassed, using deterministic rule fallback:', geminiErr);
+      } catch (featherlessErr) {
+        console.warn('Featherless API call bypassed, using deterministic rule fallback:', featherlessErr);
       }
     }
 

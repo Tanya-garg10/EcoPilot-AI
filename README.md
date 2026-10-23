@@ -174,7 +174,7 @@ ecopilot-ai/
 - **Markdown**: react-markdown, remark-gfm
 - **Backend**: Express.js
 - **Build Tool**: Vite 8.3
-- **AI**: Google Gemini 3.8 (via @google/genai)
+- **AI**: Featherless AI (OpenAI-compatible API with Llama 3.1)
 
 ---
 
