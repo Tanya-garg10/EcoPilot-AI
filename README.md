@@ -7,8 +7,6 @@
 
 > **Mathematical Energy Calculator, 0/1 Knapsack Budget Optimizer, What-If Simulator & AI Chat Assistant with MCP Protocol Support**
 
----
-
 ## 🌟 Overview
 
 **EcoPilot AI** is an intelligent household energy advisor that uses verified physics and discrete optimization algorithms to help users:
@@ -18,16 +16,12 @@
 3. **⚡ WattWise Engine** - Calculates monthly electricity units (kWh) and progressive tiered bills using `kWh = Watts × Hours/Day × Days × Quantity ÷ 1000`
 4. **💰 Smart Plan Optimizer** - Solves an exact **0/1 Knapsack Dynamic Programming algorithm** to find mathematically optimal efficiency interventions under any budget
 5. **🔮 What-If Simulator** - Dynamically recalculates before/after baseline consumption when testing appliance runtime cuts or hardware upgrades
-6. **✅ Hackathon Checklist** - Built-in submission tracker with progress monitoring
-
----
 
 ## 🎯 Key Features
 
 ### 💬 AI Chat with Markdown Support
 - Conversational interface for natural energy queries
 - Rich text rendering with **bold**, *italic*, lists, and code formatting
-- Real-time responses powered by Gemini 3.8
 - Context-aware calculations using appliance data
 
 ### 🧮 Mathematical Precision
@@ -47,14 +41,6 @@
 - Compare appliance upgrades
 - Real-time delta calculations
 - Impact visualization
-
-### 📋 Hackathon Checklist
-- Track submission requirements
-- Progress tracking by category
-- Local storage persistence
-- Pro tips for successful submission
-
----
 
 ## 🔌 MCP Server & Protocol Specification
 
@@ -82,8 +68,6 @@
 4. `simulate_energy_action` - Dynamic before/after comparison
 5. `get_impact_summary` - Comprehensive household audit
 
----
-
 ## 🧮 Mathematical Engine & Formulas
 
 ### 1. Appliance Consumption Formula
@@ -101,8 +85,6 @@ Given candidate energy interventions $i = 1 \dots n$, each with upfront cost $c_
 $$\max \sum_{i=1}^n s_i \cdot x_i \quad \text{subject to} \quad \sum_{i=1}^n c_i \cdot x_i \le \text{Budget}, \quad x_i \in \{0, 1\}$$
 
 Solved in $\mathcal{O}(n \cdot W)$ time using dynamic programming with state traceback.
-
----
 
 ## 🚀 Getting Started
 
@@ -136,8 +118,6 @@ npm run build
 npm run preview
 ```
 
----
-
 ## 🏗️ Project Structure
 
 ```
@@ -164,8 +144,6 @@ ecopilot-ai/
 └── README.md
 ```
 
----
-
 ## 🎨 Tech Stack
 
 - **Frontend**: React 19, TypeScript 5.7, Tailwind CSS 4.3
@@ -176,20 +154,6 @@ ecopilot-ai/
 - **Build Tool**: Vite 8.3
 - **AI**: Featherless AI (OpenAI-compatible API with Llama 3.1)
 
----
-
-## 🧪 Testing
-
-The application includes a built-in **Hackathon Checklist** tab that allows you to:
-- Track submission requirements
-- Monitor progress by category
-- Test core functionality
-- Verify checklist items
-
-Navigate to the **Hackathon Checklist** tab in the dashboard to access these features.
-
----
-
 ## 📊 Dashboard Tabs
 
 1. **Overview** - Summary cards, category distribution, top consumers
@@ -197,9 +161,6 @@ Navigate to the **Hackathon Checklist** tab in the dashboard to access these fea
 3. **Budget Optimizer** - Knapsack-based savings recommendations
 4. **What-If Simulator** - Test different energy scenarios
 5. **AI Copilot** - Chat interface with markdown support
-6. **Hackathon Checklist** - Submission progress tracker
-
----
 
 ## ⚙️ Configuration
 
@@ -215,8 +176,6 @@ Supports multiple currencies:
 - USD ($) - US Dollar
 - EUR (€) - Euro
 - GBP (£) - British Pound
-
----
 
 ## ⚖️ Assumptions & Disclosures
 
@@ -234,28 +193,19 @@ All monetary savings, payback periods, and kilowatt-hour figures are engineering
 
 EcoPilot AI does not claim measured meter readings or direct hardware control.
 
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
----
 
 ## 📜 License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
----
-
 ## 🙏 Acknowledgments
 
 - **MCP Protocol** - Model Context Protocol specification
-- **Google AI** - Gemini API for conversational AI
 - **Vercel** - For Vite build tool
 - **Tailwind Labs** - For Tailwind CSS framework
-
----
 
 ## 📞 Support
 
