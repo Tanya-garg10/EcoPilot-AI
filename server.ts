@@ -171,7 +171,7 @@ function resolveDeterministicAlexaQuery(prompt: string, context: any) {
     toolName: 'calculate_energy_usage',
     args: { powerWatts: 1500, hoursPerDay: 6, tariffRate: tariff },
     result: defaultCalc,
-    spokenText: `For a 1,500 Watt air conditioner running 6 hours daily, your estimated monthly consumption is ${defaultCalc.monthly_kwh} kWh, totaling ₹${defaultCalc.monthly_cost.toLocaleString()} at ₹${tariff}/unit.`,
+    spokenText: `For a 1,500 Watt air conditioner running 6 hours daily, your estimated monthly consumption is ${defaultCalc.monthlyKwh ?? defaultCalc.monthly_kwh ?? 270} kWh, totaling ₹${(defaultCalc.monthlyCost ?? defaultCalc.monthly_cost ?? 2160).toLocaleString()} at ₹${tariff}/unit.`,
   };
 }
 
@@ -200,7 +200,7 @@ ${JSON.stringify(deterministicData.result, null, 2)}
 Provide an intelligent, concise Alexa+-style spoken response (2-4 sentences). Always use the exact mathematical numbers from the tool output above. Do not hallucinate or alter any numbers. Be conversational, clear, and reassuring.`;
 
         const featherlessPromise = ai.chat.completions.create({
-          model: 'meta-llama/Meta-Llama-3.1-8B-Instruct',
+          model: 'Qwen/Qwen2.5-7B-Instruct',
           messages: [
             {
               role: 'system',
